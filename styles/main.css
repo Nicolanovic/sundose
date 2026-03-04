@@ -394,7 +394,7 @@ body::after {
 }
 
 .timeline-row.open .timeline-detail {
-  max-height: 300px;
+  max-height: 220px;
   padding: 0 6px 0.8rem 6px;
 }
 
@@ -412,7 +412,8 @@ body::after {
   display: flex;
   align-items: baseline;
   gap: 6px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  line-height: 1.4;
 }
 
 .timeline-detail-inner .detail-row:last-child { margin-bottom: 0; }
@@ -420,6 +421,12 @@ body::after {
 .detail-icon {
   flex-shrink: 0;
   font-size: 0.85rem;
+  margin-top: 1px;
+}
+
+.dr-meta {
+  color: var(--text-muted);
+  font-size: 0.8em;
 }
 
 /* Info section */

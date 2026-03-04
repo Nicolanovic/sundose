@@ -260,6 +260,14 @@ function buildStatusCard(now, todayWindow, upcoming, inOptimal, inExtended) {
   `;
 }
 
+function cloudPctColor(pct) {
+  if (pct < 25) return '#4CAF50';  // vert — dégagé
+  if (pct < 50) return '#8BC34A';  // vert clair — peu nuageux
+  if (pct < 75) return '#FF9800';  // orange — nuageux
+  if (pct < 95) return '#F44336';  // rouge — très nuageux
+  return '#9E9E9E';                 // gris — couvert
+}
+
 function buildTimeline(lat, lon, now, upcoming, phototype) {
   const windowsToShow = upcoming.filter(w => w.available).slice(0, 7);
 
@@ -283,7 +291,7 @@ function buildTimeline(lat, lon, now, upcoming, phototype) {
     const hasOptimal = !!w.optimal;
     const mainWindow = w.optimal || w.extended;
     const dayCloud = getDayCloudCover(w.date);
-    const cloudTag = dayCloud !== null ? `<span style="font-size:0.8rem;color:var(--text-muted);margin-left:4px">${cloudEmoji(dayCloud)} ${dayCloud}%</span>` : '';
+    const cloudTag = dayCloud !== null ? `<span style="font-size:0.8rem;color:${cloudPctColor(dayCloud)};margin-left:4px;font-weight:500">${cloudEmoji(dayCloud)} ${dayCloud}%</span>` : '';
 
     const maxElev = w.maxElevation;
     const ozone = estimateOzone(lat, w.date.getMonth());
@@ -295,45 +303,24 @@ function buildTimeline(lat, lon, now, upcoming, phototype) {
     let detailRows = '';
 
     if (hasOptimal) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">☀️</span> Créneau optimal (≥45°) : ${formatTime(w.optimal.start)} → ${formatTime(w.optimal.end)} (${formatDuration(w.optimal.duration)})</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">☀️</span><span><strong>Optimal</strong> ${formatTime(w.optimal.start)} – ${formatTime(w.optimal.end)} <span class="dr-meta">${formatDuration(w.optimal.duration)}</span></span></div>`;
     }
     if (w.extended) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🌤️</span> Créneau étendu (≥30°) : ${formatTime(w.extended.start)} → ${formatTime(w.extended.end)} (${formatDuration(w.extended.duration)})</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">🌤️</span><span><strong>Étendu</strong> ${formatTime(w.extended.start)} – ${formatTime(w.extended.end)} <span class="dr-meta">${formatDuration(w.extended.duration)}</span></span></div>`;
     }
-
-    const cloudFactorDay = cloudUVBFactor(dc);
-    const effectiveUviDay = peakUvi * cloudFactorDay;
-    const expTime = getExposureTime(effectiveUviDay, phototype);
-    const clearTime = getExposureTime(peakUvi, phototype);
-    const ftLabel = FITZPATRICK[phototype - 1].name.toLowerCase();
 
     function uvC(v) { return v < 3 ? '#7C4DFF' : v < 6 ? '#FF9800' : v < 8 ? '#FF5722' : v < 11 ? '#D32F2F' : '#7B1FA2'; }
 
-    detailRows += `<div class="detail-row"><span class="detail-icon">📐</span> Élévation max : <strong>${maxElev.toFixed(1)}°</strong> — Indice UV max : <strong style="color:${uvC(peakUvi)}">${peakUvi.toFixed(1)}</strong></div>`;
-
-    if (expTime) {
-      const cloudAdj = dc !== null && dc >= 25 && clearTime ? ` (${clearTime} min en ciel clair)` : '';
-      detailRows += `<div class="detail-row"><span class="detail-icon">⏱️</span> Durée estimée pour votre peau (${ftLabel}) : <strong>${expTime} min</strong>${cloudAdj}</div>`;
-    }
-
-    if (peakUvi >= 8) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🛡️</span> UV très élevé ! Crème SPF 50+ indispensable après votre dose. Risque de brûlure rapide.</div>`;
-    } else if (peakUvi >= 6) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> UV élevé — appliquez une crème SPF 30+ après votre exposition.</div>`;
-    } else if (peakUvi >= 3) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> UV modéré — protection recommandée au-delà de la durée de synthèse.</div>`;
-    } else {
-      detailRows += `<div class="detail-row"><span class="detail-icon">ℹ️</span> UV faible — peu de risque de brûlure, mais synthèse plus lente.</div>`;
-    }
+    detailRows += `<div class="detail-row"><span class="detail-icon">📐</span><span>Élévation max <strong>${maxElev.toFixed(1)}°</strong> &nbsp;·&nbsp; UV max <strong style="color:${uvC(peakUvi)}">${peakUvi.toFixed(1)}</strong></span></div>`;
 
     if (dc !== null) {
       let weatherAdvice = '';
-      if (idvc) weatherAdvice = 'Ciel couvert dense — ~35 % des UVB passent. Synthèse possible mais 2–3× plus lente. Guettez les éclaircies.';
-      else if (idc) weatherAdvice = 'Très nuageux — ~40–55 % des UVB passent. Prévoyez environ 2× plus de temps d\'exposition.';
-      else if (dc >= 50) weatherAdvice = 'Partiellement nuageux — ~60 % des UVB passent. Synthèse légèrement ralentie.';
-      else if (dc >= 25) weatherAdvice = 'Peu nuageux — ~80 % des UVB passent, bonnes conditions.';
-      else weatherAdvice = 'Ciel dégagé — ~90 % des UVB passent, conditions idéales.';
-      detailRows += `<div class="detail-row"><span class="detail-icon">${cloudEmoji(dc)}</span> Nébulosité prévue (10h–16h) : <strong>${dc}%</strong> — ${weatherAdvice}</div>`;
+      if (idvc) weatherAdvice = '~35 % UVB — synthèse très lente';
+      else if (idc) weatherAdvice = '~40–55 % UVB — prévoyez 2× plus de temps';
+      else if (dc >= 50) weatherAdvice = '~60 % UVB — synthèse ralentie';
+      else if (dc >= 25) weatherAdvice = '~80 % UVB — bonnes conditions';
+      else weatherAdvice = '~90 % UVB — conditions idéales';
+      detailRows += `<div class="detail-row"><span class="detail-icon">${cloudEmoji(dc)}</span><span>Nébulosité <strong style="color:${cloudPctColor(dc)}">${dc}%</strong> <span class="dr-meta">${weatherAdvice}</span></span></div>`;
     }
 
     let verdict = '';
