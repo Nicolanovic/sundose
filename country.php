@@ -57,18 +57,18 @@ $MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','No
 
 // ── SEO copy ───────────────────────────────────────────────────────────────
 $cityCount = count($countryCities);
-$rawTitle  = "Vitamin D in {$countryName}: sun windows by city — SunDose";
-if (strlen($rawTitle) > 60) $rawTitle = "Vitamin D in {$countryName} — SunDose";
+$rawTitle  = "What's the best time to get Vitamin D in {$countryName}? — SunDose";
+if (strlen($rawTitle) > 70) $rawTitle = "Vitamin D in {$countryName} — SunDose";
 $pageTitle = htmlspecialchars($rawTitle);
 
 if (!empty($countryBestMonths)) {
     $firstM = $MONTHS[$countryBestMonths[0] - 1];
     $lastM  = $MONTHS[end($countryBestMonths) - 1];
-    $metaDesc = "Best time for vitamin D in {$countryName}: optimal sun exposure from {$firstM} to {$lastM}. "
-              . "Real-time solar windows for {$cityCount} cities.";
+    $metaDesc = "Best time for Vitamin D in {$countryName}: optimal windows from {$firstM} to {$lastM} "
+              . "across {$cityCount} cities. Monthly solar calendars, real-time UV data & skin-type calculator.";
 } else {
-    $metaDesc = "Solar vitamin D windows for {$cityCount} cities in {$countryName}. "
-              . "Find optimal sun exposure times with real-time data from SunDose.";
+    $metaDesc = "Solar Vitamin D windows for {$cityCount} cities in {$countryName}. "
+              . "Monthly solar calendars, real-time UV index and personalised exposure times — SunDose.";
 }
 if (strlen($metaDesc) > 155) $metaDesc = substr($metaDesc, 0, 152) . '…';
 $metaDesc      = htmlspecialchars($metaDesc);
@@ -127,40 +127,18 @@ if (isset($capitalByCode[$countryCode])) {
 $MONTHS_FULL = ['January','February','March','April','May','June',
                 'July','August','September','October','November','December'];
 
-// Q1: best time
-if (!empty($countryBestMonths)) {
-    $firstBest = $MONTHS_FULL[$countryBestMonths[0] - 1];
-    $lastBest  = $MONTHS_FULL[end($countryBestMonths) - 1];
-    $peakMName = $MONTHS_FULL[$peakCountMonth - 1];
-    $citiesInPeak = $monthOptCount[$peakCountMonth];
-    $a1 = "The best months for vitamin D in {$countryName} are from {$firstBest} to {$lastBest}. "
-        . "The peak is in {$peakMName}, when {$citiesInPeak} out of {$cityCount} tracked cities "
-        . "have optimal windows (sun elevation ≥ 45°).";
-} else {
-    $goodMonthsList = [];
-    for ($m = 1; $m <= 12; $m++) { if ($monthGoodCount[$m] > 0) $goodMonthsList[] = $MONTHS_FULL[$m-1]; }
-    if (!empty($goodMonthsList)) {
-        $a1 = "In {$countryName}, the sun doesn't reach 45° in most cities, but reduced synthesis "
-            . "(30–45°) is possible in " . implode(', ', $goodMonthsList) . ". Allow 30–45 min exposure.";
-    } else {
-        $a1 = "Solar vitamin D synthesis is very limited year-round in {$countryName} due to high latitude. "
-            . "Supplementation is recommended for most of the year.";
-    }
-}
+// Q1 (removed — answered by intro card)
 
 // Q2: sunniest city
 usort($countryCities, function($a, $b) { return $b['annualOptimalDays'] - $a['annualOptimalDays']; });
 $sunniestCity = $countryCities[0];
 usort($countryCities, function($a, $b) { return $b['population'] - $a['population']; }); // restore order
 if ($sunniestCity['annualOptimalDays'] > 0) {
-    $a2 = "{$sunniestCity['name']} leads with {$sunniestCity['annualOptimalDays']} optimal days per year "
-        . "(sun ≥ 45°). The national average across tracked cities is ~{$avgOptimalDays} optimal days/year.";
+    $a2 = "If you had to pick one city in {$countryName} for vitamin D, {$sunniestCity['name']} would be hard to beat — it gets {$sunniestCity['annualOptimalDays']} optimal days a year, well above the national average of ~{$avgOptimalDays}. That gap can be the difference between a quick 15-minute top-up and planning a much longer outing.";
 } elseif ($sunniestCity['annualExtendedDays'] > 0) {
-    $a2 = "{$sunniestCity['name']} has the most synthesis days ({$sunniestCity['annualExtendedDays']} days/yr), "
-        . "though the sun stays below 45°. Allow longer exposures of 30–45 min.";
+    $a2 = "{$sunniestCity['name']} logs the most synthesis days in {$countryName} at {$sunniestCity['annualExtendedDays']} days/year — though the sun stays below 45° even there. That means slower synthesis: budget 30–45 minutes per session rather than a quick hit.";
 } else {
-    $a2 = "No city in our {$countryName} dataset has sufficient solar elevation for significant vitamin D synthesis. "
-        . "Year-round supplementation is advised.";
+    $a2 = "Honestly, no city in our {$countryName} dataset crosses the bar for meaningful vitamin D synthesis. Year-round supplementation is the practical answer here.";
 }
 
 // Q3: winter
@@ -168,32 +146,46 @@ $winterMonths = [12, 1, 2];
 $winterGoodCount = 0;
 foreach ($winterMonths as $wm) { $winterGoodCount += $monthGoodCount[$wm]; }
 if ($winterGoodCount > 0) {
-    $a3 = "Yes — some cities in {$countryName} can produce vitamin D even in winter months "
-        . "(December, January, February). Check individual city pages for exact windows, "
-        . "as this varies significantly by latitude within the country.";
+    $a3 = "Some do, yes — a handful of cities in {$countryName} can still get some synthesis through December, January, and February. It varies quite a bit depending on where exactly you are, so it's worth checking the individual city pages for specifics rather than assuming one answer fits the whole country.";
 } else {
-    $a3 = "No. During winter (December–February), the sun stays too low across all tracked cities "
-        . "in {$countryName} for meaningful vitamin D synthesis. Supplementation (800–2000 IU/day) "
-        . "is recommended during this period.";
+    $a3 = "No — during winter the sun simply doesn't climb high enough anywhere in {$countryName} for meaningful synthesis. The atmosphere filters out most UVB at shallow angles. Supplementation (800–2,000 IU/day) is the practical approach during those months.";
 }
 
 // Q4: UV safety
 $maxUVICity = $countryCities[0];
 foreach ($countryCities as $c) { if ($c['maxPeakUVI'] > $maxUVICity['maxPeakUVI']) $maxUVICity = $c; }
-$a4 = "Peak UV in {$countryName} reaches up to {$maxUVICity['maxPeakUVI']} (in {$maxUVICity['name']}). ";
 if ($maxUVICity['maxPeakUVI'] >= 8) {
-    $a4 .= "These levels are high — keep exposures short (10–20 min) and apply SPF 30+ immediately after your synthesis window.";
+    $a4 = "The highest UV in {$countryName} comes from {$maxUVICity['name']}, where it can peak at {$maxUVICity['maxPeakUVI']} in summer — high enough to burn quickly. Keep synthesis windows short (10–20 min for medium skin) and apply SPF 30+ the moment you're done. More time outside doesn't mean more vitamin D; past a point, it's just sun damage.";
 } elseif ($maxUVICity['maxPeakUVI'] >= 5) {
-    $a4 .= "These levels are moderate to high — apply sunscreen after your synthesis exposure, especially in summer.";
+    $a4 = "UV peaks around {$maxUVICity['maxPeakUVI']} in {$maxUVICity['name']} — moderate to high. Get your synthesis window in and then put on SPF 30+, especially in summer. It's not dangerously intense, but a bit of protection after makes sense.";
 } else {
-    $a4 .= "UV levels are relatively moderate — burn risk is low, but fair-skinned people should still be cautious.";
+    $a4 = "UV levels across {$countryName} stay fairly moderate — peaks around {$maxUVICity['maxPeakUVI']}. Burn risk is relatively low, which is also part of why synthesis takes longer here. Fair-skinned people should still be a bit careful around midday in summer.";
 }
 
+// Q5: latitude variation
+$latitudes   = array_column($countryCities, 'lat');
+$latRange    = abs(max($latitudes) - min($latitudes));
+if ($latRange >= 10) {
+    $a5 = "A lot, actually. {$countryName} spans roughly " . round($latRange) . "° of latitude — a huge range. A city near the equator can have good UV year-round, while a northern city might go months in winter with no synthesis at all. That's why the differences between individual city pages here can look so dramatic.";
+} elseif ($latRange >= 4) {
+    $a5 = "It makes a real difference. Across {$countryName}'s ~" . round($latRange) . "° of latitude, the more southerly cities get a few extra weeks of good synthesis windows each year. Not a dramatic gulf, but noticeable — worth checking the city pages if you're in the northern part of the country.";
+} else {
+    $a5 = "Somewhat. Even a degree or two of latitude shifts the solar elevation angle, and therefore UVB intensity. Within {$countryName}'s relatively compact range, the differences are modest — coastal exposure, local weather patterns, and altitude often matter more than latitude at this scale.";
+}
+
+// Q6: window glass
+$a6 = "Sadly, no — same answer wherever you are in {$countryName}. Glass blocks UVB almost entirely, which is the exact wavelength needed for vitamin D synthesis. Sitting in bright sunshine through a window feels warm, but it won't move your vitamin D levels. You need real, unfiltered sky on your skin.";
+
+// Q7: cloud cover
+$a7 = "Yes, but maybe less than you'd expect. Thin cloud cover barely makes a dent — around 90% of UVB still gets through on a lightly overcast day. Heavy overcast (75%+ cloud cover) is more significant: you might need to stay out about twice as long for the same effect. On a genuinely grey day, it's usually not worth it. SunDose uses today's cloud forecast for your exact location so you always get a realistic estimate.";
+
 $faqItems = [
-    ["When is the best time for vitamin D in {$countryName}?", $a1],
     ["Which city in {$countryName} gets the most vitamin D sun?", $a2],
     ["Can you get vitamin D in {$countryName} in winter?", $a3],
     ["Is sun exposure for vitamin D safe in {$countryName}?", $a4],
+    ["Does latitude affect vitamin D production across {$countryName}?", $a5],
+    ["Can I get vitamin D through a window in {$countryName}?", $a6],
+    ["Does cloud cover affect vitamin D synthesis in {$countryName}?", $a7],
 ];
 
 // ── Intro card prose ──────────────────────────────────────────────────────────
@@ -202,15 +194,36 @@ usort($countryCities, function($a, $b) { return $b['annualOptimalDays'] - $a['an
 $sunniestCity = $countryCities[0];
 usort($countryCities, function($a, $b) { return $b['population'] - $a['population']; });
 
+// UTC → local time helper for capital city peak window
+function utcToLocalCap($hhmm, $timezone, $month) {
+    if (!$hhmm) return '';
+    try {
+        $tz = new DateTimeZone($timezone);
+        $dt = new DateTime("2024-" . str_pad($month, 2, '0', STR_PAD_LEFT) . " {$hhmm}:00", new DateTimeZone('UTC'));
+        $dt->setTimezone($tz);
+        return $dt->format('H:i');
+    } catch (Exception $e) { return $hhmm; }
+}
+
+$introH2 = "What's the best time to get Vitamin D in " . htmlspecialchars($countryName) . "?";
+
 if (!empty($countryBestMonths)) {
-    $firstBestName  = $MONTHS[$countryBestMonths[0] - 1];
-    $lastBestName   = $MONTHS[end($countryBestMonths) - 1];
-    $peakMNameIntro = $MONTHS[$peakCountMonth - 1];
-    $introAnswer = "From <strong>{$firstBestName}</strong> to <strong>{$lastBestName}</strong>, with the peak in <strong>{$peakMNameIntro}</strong>.";
+    $capCurrent    = $capitalCity['seasonal'][$currentMonth - 1];
+    $capOptStart   = utcToLocalCap($capCurrent['optimalStart'], $capitalCity['timezone'], $currentMonth);
+    $capOptEnd     = utcToLocalCap($capCurrent['optimalEnd'],   $capitalCity['timezone'], $currentMonth);
+    $capExtStart   = utcToLocalCap($capCurrent['extendedStart'], $capitalCity['timezone'], $currentMonth);
+    $capExtEnd     = utcToLocalCap($capCurrent['extendedEnd'],   $capitalCity['timezone'], $currentMonth);
+    if ($capOptStart && $capOptEnd) {
+        $introSubtitle = "The best time today in <strong>" . htmlspecialchars($countryName) . "</strong> to synthesize Vitamin D is from <strong>{$capOptStart}</strong> to <strong>{$capOptEnd}</strong> (based on " . htmlspecialchars($capitalCity['name']) . ").";
+    } elseif ($capExtStart && $capExtEnd) {
+        $introSubtitle = "The best time today in <strong>" . htmlspecialchars($countryName) . "</strong> to synthesize Vitamin D is from <strong>{$capExtStart}</strong> to <strong>{$capExtEnd}</strong> in " . htmlspecialchars($capitalCity['name']) . " (reduced synthesis).";
+    } else {
+        $introSubtitle = "No vitamin D synthesis window available this month in <strong>" . htmlspecialchars($countryName) . "</strong>.";
+    }
     $introSunniest = $sunniestCity['annualOptimalDays'] > 0
         ? "<strong><a href=\"{$basePath}/{$slug}/{$sunniestCity['slug']}/\">{$sunniestCity['name']}</a></strong> leads with {$sunniestCity['annualOptimalDays']} optimal days/year"
         : "<strong>{$sunniestCity['name']}</strong> has the most synthesis days";
-    $introProse = "Across {$cityCount} tracked cities, the national average is <strong>~{$avgOptimalDays} optimal days per year</strong> — days when the sun clears the 45° threshold needed for effective UVB synthesis. {$introSunniest}. Scroll down to explore the month-by-month breakdown and find your city.";
+    $introProse = "Across {$cityCount} tracked cities, the national average is <strong>~{$avgOptimalDays} optimal days per year</strong> — days when the sun clears the 45° threshold needed for effective UVB synthesis. {$introSunniest}. Explore the month-by-month breakdown and all cities below.";
     $introStat1Val   = $avgOptimalDays;
     $introStat1Label = 'optimal days / year (avg)';
     $introStat2Val   = $sunniestCity['annualOptimalDays'];
@@ -219,11 +232,11 @@ if (!empty($countryBestMonths)) {
     $goodMonthsAll = [];
     for ($m = 1; $m <= 12; $m++) { if ($monthGoodCount[$m] > 0) $goodMonthsAll[] = $MONTHS[$m - 1]; }
     if (!empty($goodMonthsAll)) {
-        $introAnswer = "Reduced synthesis possible from <strong>" . reset($goodMonthsAll) . "</strong> to <strong>" . end($goodMonthsAll) . "</strong>.";
-        $introProse  = "The sun doesn't clear 45° in most cities in {$countryName}, but extended windows (30°–45°) allow some synthesis. Allow <strong>30–45 minutes</strong> of exposure during these months. The monthly chart below shows which months offer the best conditions.";
+        $introSubtitle = "Reduced synthesis possible from <strong>" . reset($goodMonthsAll) . "</strong> to <strong>" . end($goodMonthsAll) . "</strong> in " . htmlspecialchars($countryName) . ".";
+        $introProse    = "The sun doesn't clear 45° in most cities in {$countryName}, but extended windows (30°–45°) allow some synthesis. Allow <strong>30–45 minutes</strong> of exposure during these months. The monthly chart below shows which months offer the best conditions.";
     } else {
-        $introAnswer = "Solar vitamin D is very limited year-round in {$countryName}.";
-        $introProse  = "At these latitudes, the sun rarely reaches the 30° minimum elevation for meaningful UVB synthesis. <strong>Vitamin D supplementation</strong> (800–2,000 IU/day) is recommended throughout the year for most residents.";
+        $introSubtitle = "Solar vitamin D synthesis is very limited year-round in <strong>" . htmlspecialchars($countryName) . "</strong> at these latitudes.";
+        $introProse    = "The sun rarely reaches the 30° minimum elevation for meaningful UVB synthesis. <strong>Vitamin D supplementation</strong> (800–2,000 IU/day) is recommended throughout the year for most residents.";
     }
     $introStat1Val   = 0;
     $introStat1Label = 'optimal days / year';
@@ -262,6 +275,7 @@ $faqJsonLd = json_encode([
   <script type="application/ld+json"><?= $breadcrumbJsonLd ?></script>
   <script type="application/ld+json"><?= $faqJsonLd ?></script>
 
+  <link rel="icon" href="<?= $basePath ?>/img/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= $basePath ?>/styles/main.css">
   <link rel="stylesheet" href="<?= $basePath ?>/styles/pages.css">
@@ -275,7 +289,7 @@ $faqJsonLd = json_encode([
     <div class="sun-core"></div>
   </div>
   <a href="<?= $basePath ?>/" class="hero-brand">Sun<em>Dose</em></a>
-  <h1>Best Time for Vitamin D in <em><?= htmlspecialchars($countryName) ?></em></h1>
+  <h1>Vitamin D in <em><?= htmlspecialchars($countryName) ?></em></h1>
   <nav class="hero-breadcrumb" aria-label="Breadcrumb">
     <a href="<?= $basePath ?>/">SunDose</a> ›
     <?= htmlspecialchars($countryName) ?>
@@ -286,7 +300,8 @@ $faqJsonLd = json_encode([
 
   <!-- Intro answer card -->
   <div class="city-intro-card">
-    <div class="intro-answer"><?= $introAnswer ?></div>
+    <h2 class="intro-h2"><?= $introH2 ?></h2>
+    <div class="intro-answer"><?= $introSubtitle ?></div>
     <p class="intro-prose"><?= $introProse ?></p>
     <div class="intro-stats">
       <div class="intro-stat">

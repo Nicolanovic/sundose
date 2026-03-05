@@ -409,16 +409,16 @@ body::after {
 }
 
 .timeline-detail-inner .detail-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 4px;
+  display: block;
+  margin-bottom: 6px;
+  line-height: 1.6;
 }
 
 .timeline-detail-inner .detail-row:last-child { margin-bottom: 0; }
 
 .detail-icon {
-  flex-shrink: 0;
+  display: inline;
+  margin-right: 3px;
   font-size: 0.85rem;
 }
 

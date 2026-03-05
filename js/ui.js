@@ -296,14 +296,10 @@ function buildTimeline(lat, lon, now, upcoming, phototype) {
     let detailRows = '';
 
     if (hasOptimal) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">☀️</span> Créneau optimal (≥45°) : ${formatTime(w.optimal.start)} → ${formatTime(w.optimal.end)} (${formatDuration(w.optimal.duration)})</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">☀️</span> Optimal window (≥45°): ${formatTime(w.optimal.start)} → ${formatTime(w.optimal.end)} (${formatDuration(w.optimal.duration)})</div>`;
     }
     if (w.extended) {
-<<<<<<< Updated upstream
-      detailRows += `<div class="detail-row"><span class="detail-icon">🌤️</span> Créneau étendu (≥30°) : ${formatTime(w.extended.start)} → ${formatTime(w.extended.end)} (${formatDuration(w.extended.duration)})</div>`;
-=======
-      detailRows += `<div class="detail-row"><span class="detail-icon">🌤️</span><span><strong>Extended</strong> ${formatTime(w.extended.start)} – ${formatTime(w.extended.end)} <span class="dr-meta">${formatDuration(w.extended.duration)}</span></span></div>`;
->>>>>>> Stashed changes
+      detailRows += `<div class="detail-row"><span class="detail-icon">🌤️</span> Extended window (≥30°): ${formatTime(w.extended.start)} → ${formatTime(w.extended.end)} (${formatDuration(w.extended.duration)})</div>`;
     }
 
     const cloudFactorDay = cloudUVBFactor(dc);
@@ -314,44 +310,31 @@ function buildTimeline(lat, lon, now, upcoming, phototype) {
 
     function uvC(v) { return v < 3 ? '#7C4DFF' : v < 6 ? '#FF9800' : v < 8 ? '#FF5722' : v < 11 ? '#D32F2F' : '#7B1FA2'; }
 
-<<<<<<< Updated upstream
-    detailRows += `<div class="detail-row"><span class="detail-icon">📐</span> Élévation max : <strong>${maxElev.toFixed(1)}°</strong> — Indice UV max : <strong style="color:${uvC(peakUvi)}">${peakUvi.toFixed(1)}</strong></div>`;
+    detailRows += `<div class="detail-row"><span class="detail-icon">📐</span>Max elevation: <strong>${maxElev.toFixed(1)}°</strong> &nbsp;·&nbsp; Max UV: <strong style="color:${uvC(peakUvi)}">${peakUvi.toFixed(1)}</strong></div>`;
 
     if (expTime) {
-      const cloudAdj = dc !== null && dc >= 25 && clearTime ? ` (${clearTime} min en ciel clair)` : '';
-      detailRows += `<div class="detail-row"><span class="detail-icon">⏱️</span> Durée estimée pour votre peau (${ftLabel}) : <strong>${expTime} min</strong>${cloudAdj}</div>`;
+      const cloudAdj = dc !== null && dc >= 25 && clearTime ? ` (${clearTime} min in clear sky)` : '';
+      detailRows += `<div class="detail-row"><span class="detail-icon">⏱️</span> Estimated time for your skin type (${ftLabel}): <strong>${expTime} min</strong>${cloudAdj}</div>`;
     }
 
     if (peakUvi >= 8) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🛡️</span> UV très élevé ! Crème SPF 50+ indispensable après votre dose. Risque de brûlure rapide.</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">🛡️</span> Very high UV — SPF 50+ sunscreen essential after your dose. Quick burn risk.</div>`;
     } else if (peakUvi >= 6) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> UV élevé — appliquez une crème SPF 30+ après votre exposition.</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> High UV — apply SPF 30+ sunscreen after your exposure.</div>`;
     } else if (peakUvi >= 3) {
-      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> UV modéré — protection recommandée au-delà de la durée de synthèse.</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">🧴</span> Moderate UV — protection recommended beyond the synthesis window.</div>`;
     } else {
-      detailRows += `<div class="detail-row"><span class="detail-icon">ℹ️</span> UV faible — peu de risque de brûlure, mais synthèse plus lente.</div>`;
+      detailRows += `<div class="detail-row"><span class="detail-icon">ℹ️</span> Low UV — low burn risk, but synthesis is slower.</div>`;
     }
 
     if (dc !== null) {
       let weatherAdvice = '';
-      if (idvc) weatherAdvice = 'Ciel couvert dense — ~35 % des UVB passent. Synthèse possible mais 2–3× plus lente. Guettez les éclaircies.';
-      else if (idc) weatherAdvice = 'Très nuageux — ~40–55 % des UVB passent. Prévoyez environ 2× plus de temps d\'exposition.';
-      else if (dc >= 50) weatherAdvice = 'Partiellement nuageux — ~60 % des UVB passent. Synthèse légèrement ralentie.';
-      else if (dc >= 25) weatherAdvice = 'Peu nuageux — ~80 % des UVB passent, bonnes conditions.';
-      else weatherAdvice = 'Ciel dégagé — ~90 % des UVB passent, conditions idéales.';
-      detailRows += `<div class="detail-row"><span class="detail-icon">${cloudEmoji(dc)}</span> Nébulosité prévue (10h–16h) : <strong>${dc}%</strong> — ${weatherAdvice}</div>`;
-=======
-    detailRows += `<div class="detail-row"><span class="detail-icon">📐</span><span>Max elevation <strong>${maxElev.toFixed(1)}°</strong> &nbsp;·&nbsp; Max UV <strong style="color:${uvC(peakUvi)}">${peakUvi.toFixed(1)}</strong></span></div>`;
-
-    if (dc !== null) {
-      let weatherAdvice = '';
-      if (idvc) weatherAdvice = '~35% UVB — very slow synthesis';
-      else if (idc) weatherAdvice = '~40–55% UVB — allow 2× more time';
-      else if (dc >= 50) weatherAdvice = '~60% UVB — slower synthesis';
-      else if (dc >= 25) weatherAdvice = '~80% UVB — good conditions';
-      else weatherAdvice = '~90% UVB — ideal conditions';
-      detailRows += `<div class="detail-row"><span class="detail-icon">${cloudEmoji(dc)}</span><span>Cloud cover <strong style="color:${cloudPctColor(dc)}">${dc}%</strong> <span class="dr-meta">${weatherAdvice}</span></span></div>`;
->>>>>>> Stashed changes
+      if (idvc) weatherAdvice = 'Heavy overcast — ~35% of UVB gets through. Synthesis possible but 2–3× slower. Watch for sunny spells.';
+      else if (idc) weatherAdvice = 'Very cloudy — ~40–55% of UVB gets through. Allow about 2× longer exposure.';
+      else if (dc >= 50) weatherAdvice = 'Partly cloudy — ~60% of UVB gets through. Synthesis slightly slower.';
+      else if (dc >= 25) weatherAdvice = 'Mostly clear — ~80% of UVB gets through. Good conditions.';
+      else weatherAdvice = 'Clear sky — ~90% of UVB gets through. Ideal conditions.';
+      detailRows += `<div class="detail-row"><span class="detail-icon">${cloudEmoji(dc)}</span> Forecast cloud cover (10am–4pm): <strong>${dc}%</strong> — ${weatherAdvice}</div>`;
     }
 
     let verdict = '';
