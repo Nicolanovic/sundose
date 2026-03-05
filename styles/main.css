@@ -429,6 +429,7 @@ body::after {
   padding: 1.5rem 2rem;
   box-shadow: var(--shadow);
   animation: slideUp 0.9s ease-out;
+  margin-bottom: 1.5rem;
 }
 
 .info-card .meter-label { margin-bottom: 0.8rem; }
@@ -749,6 +750,15 @@ body::after {
   color: var(--text-muted);
   font-size: 0.85rem;
 }
+
+.app-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  padding-bottom: 2rem;
+}
+.app-footer a { color: inherit; }
 
 @media (max-width: 480px) {
   .hero { padding: 2rem 1rem 1.5rem; }

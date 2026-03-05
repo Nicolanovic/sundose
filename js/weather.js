@@ -104,11 +104,11 @@ export function cloudEmoji(pct) {
 // Cloud impact description — calibrated on NWS/EPA + Parisi et al. 2012
 export function cloudImpact(pct) {
   if (pct === null) return '';
-  if (pct < 25) return 'Ciel dégagé — ~90 % des UVB passent, conditions idéales';
-  if (pct < 50) return 'Peu nuageux — ~75–90 % des UVB passent, bon créneau';
-  if (pct < 75) return 'Nuageux — ~50–75 % des UVB passent, synthèse plus lente';
-  if (pct < 95) return 'Très nuageux — ~30–55 % des UVB passent, prévoyez 2× plus de temps';
-  return 'Couvert dense — ~30–45 % des UVB passent, synthèse possible mais très lente';
+  if (pct < 25) return 'Clear sky — ~90% of UVB reaches the ground, ideal conditions';
+  if (pct < 50) return 'Partly cloudy — ~75–90% UVB, good window';
+  if (pct < 75) return 'Cloudy — ~50–75% UVB, synthesis is slower';
+  if (pct < 95) return 'Very cloudy — ~30–55% UVB, allow 2× more time';
+  return 'Overcast — ~30–45% UVB, synthesis possible but very slow';
 }
 
 // Cloud attenuation factor (0 to 1) — how much UVB gets through

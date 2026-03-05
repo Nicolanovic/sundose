@@ -12,5 +12,10 @@ window.setPhototype = (id) => {
   renderApp();
 };
 
-// Start the app
-requestLocation();
+// Start the app — use pre-seeded location if provided (city SEO pages)
+if (window.__preseedLocation) {
+  const { lat, lon, name } = window.__preseedLocation;
+  setLocation(lat, lon, name, false);
+} else {
+  requestLocation();
+}

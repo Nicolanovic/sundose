@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/build-cities.mjs)",
+      "Bash(grep -oP \"country: ''[^'']+''\")",
+      "Bash(node -e \":*)",
+      "Bash(sed -n '12,14p' /c/wamp64/www/dev/sundose/scripts/build-cities.mjs)"
+    ]
+  }
+}

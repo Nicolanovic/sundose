@@ -1,0 +1,343 @@
+/* ── Shared styles for city.php and country.php ─────────────────────────────
+   Loaded after main.css. Extends the base design system for content pages.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── Container — slightly wider than main app (560px) to fit the calendar ── */
+.container {
+  max-width: 720px;
+}
+
+/* ── Hero breadcrumb — integrated below H1 ── */
+.hero-breadcrumb {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.55rem;
+  opacity: 0.75;
+}
+.hero-breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.hero-breadcrumb a:hover { color: var(--sun-deep); opacity: 1; }
+
+/* ── Intro answer card — first card on city/country pages ── */
+.city-intro-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.intro-answer {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.45rem;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.intro-prose {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  margin: 0 0 1.25rem;
+}
+.intro-prose a { color: var(--sun-deep); text-decoration: none; }
+.intro-prose a:hover { text-decoration: underline; }
+.intro-stats {
+  display: flex;
+  gap: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #F0EAE0;
+  flex-wrap: wrap;
+}
+.intro-stat { display: flex; flex-direction: column; }
+.intro-stat-val {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.5rem;
+  color: var(--text);
+  line-height: 1.1;
+}
+.intro-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  font-weight: 500;
+}
+
+/* ── Hero additions — "SunDose" brand link above the city H1 ── */
+.hero-brand {
+  display: block;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.hero-brand em { color: var(--sun-deep); font-style: italic; }
+.hero-brand:hover { color: var(--text); }
+
+/* City/country name as the page H1, same style as main app hero h1 */
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  position: relative;
+  color: var(--text);
+  margin-bottom: 0;
+}
+.hero h1 em { color: var(--sun-deep); font-style: italic; }
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--sun-deep); }
+
+/* ── Meta strip (below breadcrumb, above first card) ── */
+.city-meta,
+.country-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0 0.25rem;
+}
+.city-meta a    { color: inherit; text-decoration: none; }
+.city-meta a:hover { color: var(--sun-deep); }
+
+/* ── Shared card base ── */
+.city-now-card,
+.city-calendar,
+.city-faq,
+.city-nearby,
+.month-bar-card,
+.cities-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.city-now-card h2,
+.city-calendar h2,
+.city-faq h2,
+.city-nearby h2,
+.month-bar-card h2,
+.cities-card h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.2rem;
+  margin: 0 0 1.1rem;
+  color: var(--text);
+}
+
+/* ── Now card internals ── */
+.now-window { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.now-slot {
+  flex: 1;
+  min-width: 180px;
+  background: #FFFBF0;
+  border-radius: 14px;
+  padding: 1rem 1.3rem;
+  border: 1px solid #F0EAE0;
+}
+.now-slot-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+.now-slot-time {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.6rem;
+  color: var(--text);
+  line-height: 1.1;
+}
+.now-slot-dur { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.15rem; }
+.now-uvi {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-top: 0.75rem;
+  border-top: 1px solid #F0EAE0;
+}
+
+/* ── Calendar table ── */
+.city-calendar { overflow-x: auto; }
+.month-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.month-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 2px solid #F0EAE0;
+  white-space: nowrap;
+}
+.month-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #F5F0E8;
+  color: var(--text);
+  white-space: nowrap;
+}
+.month-table tbody tr:last-child td { border-bottom: none; }
+.month-table tr.opt  td:first-child { font-weight: 600; color: #2E7D32; }
+.month-table tr.ext  td:first-child { font-weight: 500; color: #E65100; }
+.month-table tr.none td:first-child { color: var(--text-muted); }
+.month-table tr.current-month { background: #FFFDE7; }
+.month-table tr.current-month td { border-bottom-color: #F5E87A; }
+
+.badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 0.74rem; font-weight: 600; }
+.badge-opt  { background: #E8F5E9; color: #2E7D32; }
+.badge-ext  { background: #FFF3E0; color: #E65100; }
+.badge-none { background: #F5F5F5; color: #9E9E9E; }
+.cal-legend { display: flex; gap: 1.2rem; margin-top: 1rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--text-muted); }
+
+/* ── Live CTA card (replaces realtime-divider) ── */
+.live-cta-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--sun);
+  text-align: center;
+}
+.live-cta-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--text);
+  margin: 0 0 0.55rem;
+  line-height: 1.25;
+}
+.live-cta-body {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  margin: 0 auto;
+  max-width: 480px;
+}
+
+/* ── FAQ ── */
+.faq-item { margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #F5F0E8; }
+.faq-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.faq-item h3 { font-size: 0.92rem; font-weight: 600; color: var(--text); margin: 0 0 0.4rem; line-height: 1.4; }
+.faq-item p  { font-size: 0.86rem; color: var(--text-soft); line-height: 1.65; margin: 0; }
+
+/* ── Nearby cities ── */
+.nearby-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.6rem;
+}
+.nearby-card {
+  display: block;
+  background: #FAFAF8;
+  border: 1px solid #F0EAE0;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nearby-card:hover { border-color: var(--sun-deep); box-shadow: 0 2px 12px rgba(232,137,12,0.1); }
+.nearby-name    { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.2rem; }
+.nearby-country { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.nearby-peak    { font-size: 0.75rem; color: var(--text-soft); }
+
+/* ── Country page: monthly bar chart ── */
+.month-bars {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 6px;
+  align-items: end;
+}
+.month-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.month-bar-track {
+  width: 100%;
+  background: #F0EAE0;
+  border-radius: 5px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.month-bar-fill { width: 100%; transition: height 0.3s; }
+.month-bar-fill.opt  { background: var(--green); }
+.month-bar-fill.good { background: var(--orange); }
+.month-bar-fill.none { background: transparent; }
+.month-bar-label { font-size: 0.7rem; color: var(--text-muted); text-align: center; white-space: nowrap; font-weight: 500; }
+.month-bar-label.current { font-weight: 700; color: var(--sun-deep); }
+.month-bar-legend { display: flex; gap: 1.2rem; margin-top: 0.8rem; font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; }
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+
+/* ── Country page: city horizontal-scroll grid (3 rows, scrolls right) ── */
+.cities-scroll-track {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
+  grid-auto-columns: 185px;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #E0D8D0 transparent;
+}
+.cities-scroll-track::-webkit-scrollbar { height: 4px; }
+.cities-scroll-track::-webkit-scrollbar-track { background: transparent; }
+.cities-scroll-track::-webkit-scrollbar-thumb { background: #E0D8D0; border-radius: 4px; }
+
+.city-card {
+  display: block;
+  background: #FAFAF8;
+  border: 1px solid #F0EAE0;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.city-card:hover { border-color: var(--sun-deep); box-shadow: 0 2px 12px rgba(232,137,12,0.1); }
+.city-card-name   { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 0.3rem; }
+.city-card-peak   { font-size: 0.8rem; color: var(--text-soft); margin-bottom: 0.55rem; min-height: 1.1em; }
+.city-card-months { display: flex; gap: 2px; }
+.month-pip { flex: 1; min-width: 0; height: 6px; border-radius: 3px; }
+.month-pip.opt  { background: var(--green); }
+.month-pip.good { background: var(--orange); }
+.month-pip.none { background: #E0D8D0; }
+
+/* ── Shared page footer ── */
+.city-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  padding-bottom: 2rem;
+}
+.city-footer a { color: inherit; }
+
+/* ── Mobile ── */
+@media (max-width: 560px) {
+  .city-now-card,
+  .city-calendar,
+  .city-faq,
+  .city-nearby,
+  .month-bar-card,
+  .cities-card {
+    padding: 1.1rem 1.2rem;
+  }
+  .month-bar-track { height: 60px; }
+}

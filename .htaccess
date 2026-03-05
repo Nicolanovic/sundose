@@ -1,0 +1,44 @@
+RewriteEngine On
+
+# ── Production: enforce HTTPS ────────────────────────────────────────────────
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# ── Production: enforce www ──────────────────────────────────────────────────
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# ── Sitemaps ──────────────────────────────────────────────────────────────────
+RewriteRule ^sitemap\.xml$ sitemap-index.php [L]
+RewriteRule ^sitemap-cities\.xml$ sitemap-cities.php [L]
+RewriteRule ^sitemap-countries\.xml$ sitemap-countries.php [L]
+
+# ── Block direct access to data/ and scripts/ ────────────────────────────────
+RewriteRule ^data/ - [F,L]
+RewriteRule ^scripts/ - [F,L]
+
+# ── Enforce trailing slash on city URLs: /country/city → /country/city/ ──────
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^([a-z0-9-]+)/([a-z0-9-]+)$ /$1/$2/ [R=301,L]
+
+# ── Enforce trailing slash on country URLs: /country → /country/ ─────────────
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-z0-9-]+)$ /$1/ [R=301,L]
+
+# ── City pages: /country/city/ → city.php ────────────────────────────────────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-z0-9-]+)/([a-z0-9-]+)/?$ city.php?slug=$2&country=$1 [L,QSA]
+
+# ── Country pages: /country/ → country.php ───────────────────────────────────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-z0-9-]+)/?$ country.php?slug=$1 [L,QSA]
+
+# ── Cache headers for static assets ──────────────────────────────────────────
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

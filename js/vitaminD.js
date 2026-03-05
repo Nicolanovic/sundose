@@ -2,12 +2,12 @@
 import { getVitDWindow } from './solar.js';
 
 export const FITZPATRICK = [
-  { id: 1, label: 'I',   name: 'Très claire', color: '#FDEBD0', desc: 'Brûle toujours, ne bronze jamais',         factor: 0.66 },
-  { id: 2, label: 'II',  name: 'Claire',       color: '#F5CBA7', desc: 'Brûle facilement, bronze peu',             factor: 0.83 },
-  { id: 3, label: 'III', name: 'Médium',        color: '#E0B07B', desc: 'Brûle modérément, bronze graduellement',  factor: 1.0  },
-  { id: 4, label: 'IV',  name: 'Mate',          color: '#C49A6C', desc: 'Brûle peu, bronze bien',                  factor: 1.5  },
-  { id: 5, label: 'V',   name: 'Foncée',        color: '#8D6E4C', desc: 'Brûle rarement, bronze foncé',            factor: 2.5  },
-  { id: 6, label: 'VI',  name: 'Très foncée',   color: '#5C4033', desc: 'Ne brûle jamais',                         factor: 4.2  },
+  { id: 1, label: 'I',   name: 'Very fair', color: '#FDEBD0', desc: 'Always burns, never tans',          factor: 0.66 },
+  { id: 2, label: 'II',  name: 'Fair',      color: '#F5CBA7', desc: 'Burns easily, tans minimally',      factor: 0.83 },
+  { id: 3, label: 'III', name: 'Medium',    color: '#E0B07B', desc: 'Burns moderately, tans gradually',  factor: 1.0  },
+  { id: 4, label: 'IV',  name: 'Olive',     color: '#C49A6C', desc: 'Burns minimally, tans well',        factor: 1.5  },
+  { id: 5, label: 'V',   name: 'Brown',     color: '#8D6E4C', desc: 'Rarely burns, tans darkly',         factor: 2.5  },
+  { id: 6, label: 'VI',  name: 'Dark',      color: '#5C4033', desc: 'Never burns',                       factor: 4.2  },
 ];
 
 // Estimate vitamin D synthesis time (minutes) for 1000 IU
@@ -57,19 +57,19 @@ export function scoreColor(s) {
 
 export function scoreLabel(s) {
   if (s >= 80) return 'Excellent';
-  if (s >= 60) return 'Très bon';
-  if (s >= 45) return 'Bon';
-  if (s >= 30) return 'Moyen';
-  if (s >= 15) return 'Faible';
-  return 'Insuffisant';
+  if (s >= 60) return 'Very good';
+  if (s >= 45) return 'Good';
+  if (s >= 30) return 'Fair';
+  if (s >= 15) return 'Low';
+  return 'None';
 }
 
 export function scoreDesc(s) {
-  if (s >= 70) return 'Conditions idéales pour synthétiser votre vitamine D. Une courte exposition suffit.';
-  if (s >= 45) return 'Bonnes conditions. La synthèse est possible, profitez du créneau.';
-  if (s >= 25) return 'Conditions moyennes. Synthèse lente — privilégiez les éclaircies.';
-  if (s >= 10) return 'Conditions défavorables. La synthèse est très limitée aujourd\'hui.';
-  return 'Pas de synthèse significative possible aujourd\'hui. Supplémentation recommandée.';
+  if (s >= 70) return 'Ideal conditions for vitamin D synthesis. A short exposure is enough.';
+  if (s >= 45) return 'Good conditions. Synthesis is possible — make the most of the window.';
+  if (s >= 25) return 'Average conditions. Slow synthesis — aim for breaks in the clouds.';
+  if (s >= 10) return 'Poor conditions. Vitamin D synthesis is very limited today.';
+  return 'No significant synthesis possible today. Supplementation recommended.';
 }
 
 // Return vitamin D windows for the next `days` days

@@ -33,7 +33,7 @@ export function buildChartHTML(lat, lon) {
 
   if (sp.length < 2) {
     return `<div class="elevation-meter">
-      <div class="meter-label">Courbe solaire du jour</div>
+      <div class="meter-label">Solar curve of the day</div>
       <p style="color:var(--text-muted);font-size:0.9rem">Le soleil ne se lève pas aujourd'hui à cette latitude.</p>
     </div>`;
   }
@@ -70,7 +70,7 @@ export function buildChartHTML(lat, lon) {
     nowMarker = `<line x1="${nx}" x2="${nx}" y1="${PT}" y2="${bY}" stroke="#2C1810" stroke-width="1" stroke-dasharray="2,2" opacity="0.25"/>
       <circle cx="${nx}" cy="${ne}" r="4.5" fill="#E8890C" stroke="white" stroke-width="2"/>
       <circle cx="${nx}" cy="${nu}" r="3.5" fill="#7C4DFF" stroke="white" stroke-width="1.5"/>
-      <text x="${nx}" y="${PT - 2}" fill="#2C1810" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="500">maintenant</text>`;
+      <text x="${nx}" y="${PT - 2}" fill="#2C1810" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="500">now</text>`;
   }
 
   // Time labels
@@ -95,19 +95,19 @@ export function buildChartHTML(lat, lon) {
 
   return `
     <div class="elevation-meter">
-      <div class="meter-label">Courbe solaire du jour</div>
+      <div class="meter-label">Solar curve of the day</div>
       <div class="chart-values">
         <div class="chart-value-block">
           <div class="chart-value-num">${currentElev > 0 ? currentElev.toFixed(1) + '°' : '—'}</div>
-          <div class="chart-value-label">Élévation</div>
+          <div class="chart-value-label">Elevation</div>
         </div>
         <div class="chart-value-block">
           <div class="chart-value-num" style="color:${uvColor(nowUvi)}">${currentElev > 0 ? nowUvi.toFixed(1) : '—'}</div>
-          <div class="chart-value-label">Indice UV (est.)</div>
+          <div class="chart-value-label">UV index (est.)</div>
         </div>
         <div class="chart-value-block">
           <div class="chart-value-num">${solarPosition(new Date(chartDate.getTime() + solarNoonH * 3600000), lat, lon).elevation.toFixed(1)}°</div>
-          <div class="chart-value-label">Éléva. max</div>
+          <div class="chart-value-label">Max elev.</div>
         </div>
         <div class="chart-value-block">
           <div class="chart-value-num" style="color:${uvColor(maxUvi)}">${maxUvi.toFixed(1)}</div>
@@ -148,11 +148,11 @@ export function buildChartHTML(lat, lon) {
 
           <!-- Left Y-axis: Elevation -->
           ${eT.map(e => `<text x="${PL - 5}" y="${yE(e).toFixed(1)}" fill="#E8890C" font-size="9" text-anchor="end" alignment-baseline="middle" font-family="DM Sans,sans-serif" font-weight="500">${e}°</text>`).join('')}
-          <text x="4" y="${PT + cH / 2}" fill="#E8890C" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" transform="rotate(-90, 10, ${PT + cH / 2})" opacity="0.7">Élévation (°)</text>
+          <text x="4" y="${PT + cH / 2}" fill="#E8890C" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" transform="rotate(-90, 10, ${PT + cH / 2})" opacity="0.7">Elevation (°)</text>
 
           <!-- Right Y-axis: UV Index -->
           ${uT.map(u => `<text x="${W - PR + 5}" y="${yU(u).toFixed(1)}" fill="#7C4DFF" font-size="9" text-anchor="start" alignment-baseline="middle" font-family="DM Sans,sans-serif" font-weight="500" opacity="0.8">${u}</text>`).join('')}
-          <text x="${W - 4}" y="${PT + cH / 2}" fill="#7C4DFF" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" transform="rotate(90, ${W - 10}, ${PT + cH / 2})" opacity="0.7">Indice UV</text>
+          <text x="${W - 4}" y="${PT + cH / 2}" fill="#7C4DFF" font-size="8" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" transform="rotate(90, ${W - 10}, ${PT + cH / 2})" opacity="0.7">UV Index</text>
 
           <!-- Time labels -->
           ${timeLabels.map(t => `<text x="${t.x.toFixed(1)}" y="${H - 5}" fill="#A89279" font-size="9" text-anchor="middle" font-family="DM Sans,sans-serif">${t.l}</text>`).join('')}
@@ -164,11 +164,11 @@ export function buildChartHTML(lat, lon) {
       <div class="chart-legend" style="gap:1.5rem;margin-top:0.7rem">
         <div class="chart-legend-item" style="font-size:0.82rem">
           <svg width="20" height="6" style="flex-shrink:0"><line x1="0" y1="3" x2="20" y2="3" stroke="#E8890C" stroke-width="2.5" stroke-linecap="round"/></svg>
-          Élévation solaire
+          Solar elevation
         </div>
         <div class="chart-legend-item" style="font-size:0.82rem">
           <svg width="20" height="6" style="flex-shrink:0"><line x1="0" y1="3" x2="20" y2="3" stroke="#7C4DFF" stroke-width="2" stroke-dasharray="4,2" stroke-linecap="round"/></svg>
-          Indice UV (ciel clair)
+          UV Index (clear sky)
         </div>
       </div>
     </div>

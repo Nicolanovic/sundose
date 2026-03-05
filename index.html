@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SunDose — Votre dose quotidienne de vitamine D</title>
+  <title>SunDose — Your daily vitamin D dose</title>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SunDose",
+    "url": "https://www.sundose.org/",
+    "description": "Your daily vitamin D dose, calculated in real time"
+  }
+  </script>
 </head>
 <body>
 
@@ -15,16 +24,20 @@
     <div class="sun-core"></div>
   </div>
   <h1>Sun<em>Dose</em></h1>
-  <p class="subtitle">Votre dose quotidienne de vitamine D, calculée en temps réel</p>
+  <p class="subtitle">Your daily vitamin D dose, calculated in real time</p>
 </div>
 
 <div class="container" id="app">
   <div class="loading-state" id="loading">
     <div class="loading-spinner"></div>
-    <p>Recherche de votre position…</p>
+    <p>Finding your location…</p>
   </div>
 </div>
 
 <script type="module" src="js/main.js"></script>
+
+<footer class="app-footer">
+  Solar calculations: NOAA algorithms &middot; UV index: Madronich (2007) formula &middot; Weather: <a href="https://open-meteo.com/" target="_blank">Open-Meteo.com</a> (CC BY 4.0)
+</footer>
 </body>
 </html>

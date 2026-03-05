@@ -16,7 +16,7 @@ export async function reverseGeocode(lat, lon) {
   } catch {}
 
   try {
-    const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=fr`);
+    const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`);
     const data = await resp.json();
     const addr = data.address;
     const name = addr.city || addr.town || addr.village || addr.municipality || addr.county || `${lat.toFixed(2)}°N`;
@@ -31,7 +31,7 @@ export async function reverseGeocode(lat, lon) {
 
 export async function searchPlace(query) {
   try {
-    const resp = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&accept-language=fr&limit=5&addressdetails=1`);
+    const resp = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&accept-language=en&limit=5&addressdetails=1`);
     return await resp.json();
   } catch {
     return [];
@@ -70,13 +70,13 @@ export function initSearchInput(inputId, resultsId) {
       return;
     }
 
-    resultsContainer.innerHTML = '<div class="search-loading">Recherche…</div>';
+    resultsContainer.innerHTML = '<div class="search-loading">Searching…</div>';
     resultsContainer.style.display = 'block';
 
     debounceTimer = setTimeout(async () => {
       const results = await searchPlace(query);
       if (results.length === 0) {
-        resultsContainer.innerHTML = '<div class="search-loading">Aucun résultat</div>';
+        resultsContainer.innerHTML = '<div class="search-loading">No results</div>';
         return;
       }
 
@@ -124,15 +124,15 @@ export function requestLocation() {
     app.innerHTML = `
       <div class="loading-state" id="loading">
         <div class="loading-spinner"></div>
-        <p>Recherche de votre position…</p>
+        <p>Finding your location…</p>
         <div id="loading-fallback" style="display:none;margin-top:1.5rem;animation:slideUp 0.4s ease-out">
-          <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.8rem">La géolocalisation prend du temps ?<br>Recherchez un lieu manuellement :</p>
+          <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.8rem">Taking too long?<br>Search for a location manually:</p>
           <div class="location-search" style="margin-bottom:0;max-width:400px;margin-left:auto;margin-right:auto">
             <div class="search-wrapper">
               <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
               </svg>
-              <input type="text" class="search-input" id="search-input-loading" placeholder="Paris, Lyon, Marseille…" autocomplete="off" />
+              <input type="text" class="search-input" id="search-input-loading" placeholder="New York, London, Paris…" autocomplete="off" />
               <div class="search-results" id="search-results-loading" style="display:none"></div>
             </div>
           </div>
@@ -151,7 +151,7 @@ export function requestLocation() {
   }
 
   if (!navigator.geolocation) {
-    showError("Votre navigateur ne supporte pas la géolocalisation. Essayez un navigateur plus récent.");
+    showError("Your browser does not support geolocation. Please try a more recent browser.");
     return;
   }
 
@@ -171,9 +171,9 @@ export function requestLocation() {
       geoResolved = true;
       if (state.lat) return;
       if (err.code === 1) {
-        showError("Vous avez refusé l'accès à votre position. Autorisez la géolocalisation ou recherchez un lieu manuellement.");
+        showError("You denied location access. Allow geolocation or search for a location manually.");
       } else {
-        showError("Impossible d'obtenir votre position. Recherchez un lieu manuellement.");
+        showError("Unable to get your location. Search for a location manually.");
       }
     },
     { enableHighAccuracy: false, timeout: 15000 }
